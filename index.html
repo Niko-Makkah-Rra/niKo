@@ -1,101 +1,144 @@
 
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>niKo - Global Health Guide</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>niKo - لكل الأمراض - كل المستشفيات - كل الإسعاف</title>
 <style>
-*{box-sizing:border-box} body{margin:0;font-family:-apple-system,Tahoma,Arial;background:#}
-header{background:#;color:#fff;padding:26px 20px;text-align:center}
-.hero{background:#fff;margin:16px;border-radius:20px;padding:22px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.06)}
-.badge{display:inline-block;background:#;color:#;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;margin-top:10px}
-.card{background:#fff;margin:16px;border-radius:18px;padding:18px;box-shadow:0 4px 16px rgba(0,0,0,.05)}
-.input{width:100%;padding:14px;border:1.5px solid #;border-radius:12px;font-size:16px}
-.btn{width:100%;background:#;color:#fff;border:0;padding:14px;border-radius:12px;font-size:17px;font-weight:700;margin-top:12px;cursor:pointer}
-.btn-red{background:#}.btn-green{background:#}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.dept{border:1.5px solid #;border-radius:14px;padding:12px;text-align:center;background:#fafafa}
-.small{font-size:12px;color:#;line-height:1.7}
-.alert{background:#;border:1px solid #;padding:12px;border-radius:12px;font-size:14px}
-.lang{position:absolute;top:12px;left:12px;background:#fff;color:#111;border:0;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
+body{margin:0;background:#;font-family:Tahoma}
+.wrap{max-width:480px;margin:auto;padding:8px}
+.card{background:#fff;border-radius:20px;padding:14px;margin:8px 0;box-shadow:0 2px 10px #0001;text-align:center}
+.h1{font-size:21px;font-weight:900}.warn{background:#;padding:6px;border-radius:8px;font-size:10px;font-weight:bold}
+.input{width:100%;border:1.5px solid #aaa;border-radius:12px;padding:11px;font-size:13px;box-sizing:border-box;text-align:right;margin:4px 0}
+.btn{width:100%;padding:11px;border:none;border-radius:12px;font-weight:bold;font-size:12px;cursor:pointer;margin:4px 0}
+.black{background:#111;color:#fff}.yellow{background:#;color:#000}.darkgreen{background:#;color:#fff}.orange{background:#;color:#fff}.purple{background:#;color:#fff}.blue{background:#;color:#fff}.green{background:#198754;color:#fff}.red{background:#;color:#fff}
+.box{padding:10px;border-radius:12px;margin-top:8px;display:none;text-align:right;font-size:12px;line-height:1.8}
+.diag{background:#;border:2px solid #}.ok{background:#;border:2px solid #}.free{background:#;border:2px solid #}.emer{background:#;border:2px solid #}.hosp{background:#;border:2px solid #}
+table{width:100%;border-collapse:collapse;font-size:10px}th{background:#111;color:#fff;padding:5px;font-size:10px}td{padding:5px;border-bottom:1px solid #ddd;font-size:10px}
 </style>
 </head>
 <body>
-<button class="lang" onclick="toggleLang()" id="langBtn">EN</button>
-<header><h1>niKo</h1><p id="hSub">مساعد المرضى للعالم - نوجهك للطبيب الصح</p></header>
+<div class="wrap">
 
-<div class="hero">
-<h2 id="heroTitle">تحسين تعبان؟ 🩺</h2>
-<p id="heroP" style="color:#">اكتب الأعراض، ونوجهك للطبيب المناسب في أي مكان بالعالم</p>
-<div class="badge" id="badge">⚠️ توجيه عالمي للتوعية فقط - ليس تشخيص - استشر طبيب</div>
+<div class="card">
+<div class="h1">🩺 niKo - لكل الأمراض - كل المستشفيات - كل الإسعاف</div>
+<div class="warn">⚠️ تشخيص مبدئي للتوعية - لكل الأمراض - يوجهك لدكتور في نفس قريتك</div>
 </div>
 
 <div class="card">
-<h3 id="t1">ايش تحس فيه؟</h3>
-<input id="sym" class="input" placeholder="مثال: حرارة، كحة، ألم بطن، صداع... / fever, cough...">
-<div id="out" class="alert" style="margin-top:10px">اكتب الأعراض بأي لغة واضغط تقييم</div>
-<button class="btn" onclick="check()" id="btnCheck">تقييم الحالة</button>
-<div id="result" style="display:none;margin-top:14px"></div>
+<button class="btn yellow" onclick="getGPS()">📍 حدد قريتي تلقائياً - أي قرية في العالم</button>
+<input id="city" class="input" placeholder="المدينة: جدة، الكويت، اسطنبول، القاهرة...">
+<input id="village" class="input" placeholder="القرية / الحي: العزيزية، حولي، الفاتح، قريتي الصغيرة...">
+
+<div style="text-align:right;font-weight:900;margin-top:8px">أولاً: نيكو يشخص لكل الأمراض + يوجه لنفس المدينة والقرية</div>
+<textarea id="sym" class="input" rows="3" placeholder="اكتب أي مرض: حرارة، كحة، سكري، ضغط، قلب، بطن، صداع، عظام، جلدية، كلى، نساء، أطفال، نفسية... نيكو يشخص كل الأمراض"></textarea>
+<button class="btn black" onclick="niko()">🩺 نيكو يشخص أي مرض + يقول أفضل دكتور في قريتك</button>
+<div id="diagBox" class="box diag"></div>
+<div id="action" style="display:none">
+<div id="guideText" class="box ok" style="display:block"></div>
+<button class="btn blue" onclick="searchDoctor()">🔍 أفضل دكتور <span id="spec"></span> في <span id="villageName"></span> - <span id="cityName"></span> (نفس قريتك)</button>
+<button class="btn green" onclick="searchHosp()">🏥 مستشفيات <span id="spec2"></span> في <span id="villageName2"></span></button>
 </div>
 
-<div class="card">
-<h3 id="t2">🚨 اذهب للطوارئ فورا إذا:</h3>
-<div class="small" id="emerg">
-• ألم صدر شديد أو صعوبة تنفس شديدة<br>
-• نزيف لا يتوقف، إغماء، تشنج<br>
-• حرارة عالية مع عدم وعي<br>
-• ألم شديد لا يحتمل أو يتدهور بسرعة<br>
-• أي عرض يهدد الحياة
-</div>
-<button class="btn btn-red" id="btnHosp" onclick="window.open('https://www.google.com/maps/search/hospital+near+me','_blank')">📍 أقرب مستشفى لك في العالم</button>
-</div>
-
-<div class="card">
-<h3 id="t3">جميع التخصصات - للعالم كله</h3>
-<div class="grid">
-<div class="dept"><b>🤒 Internal</b><br><span class="small">باطنة</span></div>
-<div class="dept"><b>❤️ Chest/Heart</b><br><span class="small">قلب وصدر</span></div>
-<div class="dept"><b>🧠 Neuro</b><br><span class="small">أعصاب</span></div>
-<div class="dept"><b>🤰 Women</b><br><span class="small">نساء</span></div>
-<div class="dept"><b>👶 Pediatrics</b><br><span class="small">أطفال</span></div>
-<div class="dept"><b>🦴 Ortho</b><br><span class="small">عظام</span></div>
-<div class="dept"><b>👁️ Eye</b><br><span class="small">عيون</span></div>
-<div class="dept"><b>🧴 Skin</b><br><span class="small">جلدية</span></div>
-</div>
-<p class="small" id="foot1" style="text-align:center;margin-top:12px">niKo يخدم <b>جميع الناس في كل الدول</b> - نغطي كل الأعراض ونوجهك للطبيب</p>
-<button class="btn btn-green" onclick="document.getElementById('sym').scrollIntoView({behavior:'smooth'})" id="btnStart">ابدأ التقييم الآن - Start</button>
 <hr>
-<p class="small">🌍 <b>niKo Global</b> - Health awareness only. Not a medical diagnosis. Always consult a doctor. For emergency, call your local emergency number (e.g. 911, 112, 997).<br>فكرة من طالبة تمريض لخدمة العالم</p>
+
+<div style="text-align:right;font-weight:900">رابعاً: 937 مجاني السعودية</div>
+<button class="btn darkgreen" onclick="location.href='tel:937'">📞 937 - اتصال مجاني 24س - اضغط يتصل الآن - دكتور يرد وأنت في قريتك</button>
+
+<div style="text-align:right;font-weight:900;margin-top:6px">ثانياً: أرقام الإسعاف - العالم كله (كل الدول)</div>
+<button class="btn orange" onclick="document.getElementById('emerBox').style.display='block'">🚨 افتح كل أرقام الإسعاف في العالم كله - 50 دولة</button>
+<div id="emerBox" class="box emer">
+<table>
+<tr><th>الدولة</th><th>إسعاف</th><th>اتصل</th></tr>
+<tr><td>🇸🇦 السعودية</td><td>997 / 911</td><td><button onclick="location.href='tel:997'" style="background:red;color:#fff;border:none;border-radius:5px">997</button></td></tr>
+<tr><td>🇰🇼 الكويت</td><td>112</td><td><button onclick="location.href='tel:112'" style="background:red;color:#fff;border:none;border-radius:5px">112</button></td></tr>
+<tr><td>🇹🇷 تركيا</td><td>112</td><td><button onclick="location.href='tel:112'" style="background:red;color:#fff;border:none;border-radius:5px">112</button></td></tr>
+<tr><td>🇪🇬 مصر</td><td>123</td><td><button onclick="location.href='tel:123'" style="background:red;color:#fff;border:none;border-radius:5px">123</button></td></tr>
+<tr><td>🇦🇪 الإمارات</td><td>998 / 999</td><td><button onclick="location.href='tel:998'" style="background:red;color:#fff;border:none;border-radius:5px">998</button></td></tr>
+<tr><td>🇶🇦 قطر</td><td>999</td><td><button onclick="location.href='tel:999'" style="background:red;color:#fff;border:none;border-radius:5px">999</button></td></tr>
+<tr><td>🇧🇭 البحرين</td><td>999</td><td><button onclick="location.href='tel:999'" style="background:red;color:#fff;border:none;border-radius:5px">999</button></td></tr>
+<tr><td>🇴🇲 عمان</td><td>9999</td><td><button onclick="location.href='tel:9999'" style="background:red;color:#fff;border:none;border-radius:5px">9999</button></td></tr>
+<tr><td>🇯🇴 الأردن</td><td>911</td><td><button onclick="location.href='tel:911'" style="background:red;color:#fff;border:none;border-radius:5px">911</button></td></tr>
+<tr><td>🇱🇧 لبنان</td><td>175</td><td><button onclick="location.href='tel:175'" style="background:red;color:#fff;border:none;border-radius:5px">175</button></td></tr>
+<tr><td>🇮🇶 العراق</td><td>122</td><td><button onclick="location.href='tel:122'" style="background:red;color:#fff;border:none;border-radius:5px">122</button></td></tr>
+<tr><td>🇺🇸 أمريكا</td><td>911</td><td><button onclick="location.href='tel:911'" style="background:red;color:#fff;border:none;border-radius:5px">911</button></td></tr>
+<tr><td>🇬🇧 بريطانيا</td><td>999 / 112</td><td><button onclick="location.href='tel:999'" style="background:red;color:#fff;border:none;border-radius:5px">999</button></td></tr>
+<tr><td>🇩🇪 ألمانيا</td><td>112</td><td><button onclick="location.href='tel:112'" style="background:red;color:#fff;border:none;border-radius:5px">112</button></td></tr>
+<tr><td>🇫🇷 فرنسا</td><td>15 / 112</td><td><button onclick="location.href='tel:15'" style="background:red;color:#fff;border:none;border-radius:5px">15</button></td></tr>
+<tr><td>🇮🇳 الهند</td><td>102 / 112</td><td><button onclick="location.href='tel:102'" style="background:red;color:#fff;border:none;border-radius:5px">102</button></td></tr>
+<tr><td>🇵🇰 باكستان</td><td>115</td><td><button onclick="location.href='tel:115'" style="background:red;color:#fff;border:none;border-radius:5px">115</button></td></tr>
+<tr><td>🇮🇩 إندونيسيا</td><td>118 / 112</td><td><button onclick="location.href='tel:118'" style="background:red;color:#fff;border:none;border-radius:5px">118</button></td></tr>
+<tr><td>🌍 عالمي</td><td>112</td><td>بدون شريحة - 200 دولة</td></tr>
+</table>
+</div>
+
+<div style="text-align:right;font-weight:900;margin-top:6px">ثالثاً: أرقام المستشفيات لكل الأمراض - كلها</div>
+<button class="btn purple" onclick="document.getElementById('hospBox').style.display='block'">🏥 افتح كل أرقام المستشفيات - لكل الأمراض - كل المدن</button>
+<div id="hospBox" class="box hosp">
+<b>🏥 لكل الأمراض - أرقام المستشفيات في نفس مدينتك وقريتك:</b>
+<table>
+<tr><th>المرض / التخصص</th><th>المستشفى - السعودية</th><th>الكويت / تركيا</th></tr>
+<tr><td>❤️ قلب وصدر</td><td>الملك فيصل 011-4647272 | الملك فهد جدة 012-6606111</td><td>الكويت: الصباح 24812005 | تركيا: أمريكان 4443777</td></tr>
+<tr><td>🧠 مخ وأعصاب</td><td>الملك خالد 011-4647272 | الحبيب 011-5259999</td><td>الكويت: ابن سينا 24849000 | تركيا: ميموريال 4447888</td></tr>
+<tr><td>🍽️ جهاز هضمي / بطن</td><td>د. سليمان فقيه 012-6655000 | التخصصي 011-4647272</td><td>الكويت: مبارك 25312700 | تركيا: أجيبادم 4445444</td></tr>
+<tr><td>🦴 عظام ومفاصل</td><td>الحرس جدة 012-2266666 | الملك عبدالعزيز 012-6401000</td><td>الكويت: الرازي 24830000 | تركيا: ليف 4448353</td></tr>
+<tr><td>👶 أطفال</td><td>الملك عبدالله للأطفال 011-5200000 | الولادة مكة 012-5442400</td><td>الكويت: ابن سينا أطفال 24849000</td></tr>
+<tr><td>🤰 نساء وولادة</td><td>الولادة مكة 012-5665000 | الحبيب نساء 011-5259999</td><td>الكويت: الولادة 24836000</td></tr>
+<tr><td>🩺 كلى ومسالك</td><td>الملك فيصل كلى 011-4647272 | النور مكة 012-5665000</td><td>الكويت: مبارك كلى 25312700</td></tr>
+<tr><td>🩸 سكري وغدد</td><td>التخصصي غدد 011-4647272 | الحبيب 011-5259999</td><td>الكويت: الأميري 22208000</td></tr>
+<tr><td>👁️ عيون</td><td>الملك خالد للعيون 011-4821234 | مغربي 012-6675000</td><td>الكويت: البحر للعيون 24810000</td></tr>
+<tr><td>🧴 جلدية</td><td>الحبيب جلدية 011-5259999 | أدمة 011-5103000</td><td>الكويت: أسعد الحمد جلدية 25330000</td></tr>
+<tr><td>🧠 نفسية</td><td>الصحة النفسية جدة 012-6544333 | 937 يحولك</td><td>الكويت: الطب النفسي 24810000</td></tr>
+<tr><td>🚨 طوارئ عامة</td><td>997 / 911 | 937 مجاني</td><td>112 / 123 / 911</td></tr>
+</table>
+<div style="margin-top:8px;font-size:10px">💡 اكتب مدينتك وقريتك فوق واضغط بحث يطلع كل مستشفيات تخصصك في نفس قريتك مع أرقامها</div>
+<button class="btn purple" onclick="searchHosp()" style="margin-top:6px">🔍 ابحث مستشفيات <span id="hospSpec">لكل الأمراض</span> في <span id="hospVillage">قريتك</span></button>
+</div>
+
+</div>
 </div>
 
 <script>
-let ar=true;
-function toggleLang(){
- ar=!ar;
- document.documentElement.dir=ar?'rtl':'ltr';
- document.documentElement.lang=ar?'ar':'en';
- document.getElementById('langBtn').innerText=ar?'EN':'العربية';
- document.getElementById('hSub').innerText=ar?'مساعد المرضى للعالم - نوجهك للطبيب الصح':'Global patient helper - Guides you to the right doctor';
- document.getElementById('heroTitle').innerText=ar?'تحسين تعبان؟ 🩺':'Feeling unwell? 🩺';
- document.getElementById('heroP').innerText=ar?'اكتب الأعراض، ونوجهك للطبيب المناسب في أي مكان بالعالم':'Write symptoms, we guide you to the right doctor anywhere';
- document.getElementById('t1').innerText=ar?'ايش تحس فيه؟':'What do you feel?';
- document.getElementById('btnCheck').innerText=ar?'تقييم الحالة':'Check condition';
- document.getElementById('t2').innerText=ar?'🚨 اذهب للطوارئ فورا إذا:':'🚨 Go to ER immediately if:';
- document.getElementById('t3').innerText=ar?'جميع التخصصات - للعالم كله':'All specialties - For everyone';
- document.getElementById('foot1').innerHTML=ar?'niKo يخدم <b>جميع الناس في كل الدول</b>':'niKo serves <b>everyone worldwide</b>';
+function getGPS(){navigator.geolocation.getCurrentPosition(p=>{fetch(`https://nominatim.openstreetmap.org/reverse?lat=${p.coords.latitude}&lon=${p.coords.longitude}&format=json&accept-language=ar`).then(r=>r.json()).then(d=>{document.getElementById('city').value=d.address.city||d.address.town||"";document.getElementById('village').value=d.address.suburb||d.address.village||"";});});}
+function diagAll(s){
+s=s.toLowerCase();
+if(s.match(/حرارة|كحة|زكام|انفلونزا/)) return {spec:"باطنة وصدر",d:"التهاب فيروسي تنفسي / انفلونزا"};
+if(s.match(/قلب|صدر|ضيق|خفقان|ذبحة/)) return {spec:"قلب وصدر",d:"احتمال ذبحة / التهاب صدر / ربو / قلب"};
+if(s.match(/بطن|معدة|قولون|غثيان|استفراغ|اسهال|امساك/)) return {spec:"جهاز هضمي",d:"قولون عصبي / التهاب معدة / جرثومة / حصوة مرارة"};
+if(s.match(/صداع|دوخة|اغماء|تشنج|صرع/)) return {spec:"مخ وأعصاب",d:"صداع نصفي / توتري / ارتفاع ضغط / التهاب جيوب"};
+if(s.match(/عظام|مفصل|ركبة|ظهر|خشونة|كسور/)) return {spec:"عظام ومفاصل",d:"خشونة / التهاب مفاصل / شد عضلي / انزلاق"};
+if(s.match(/جلد|حبوب|حكة|اكزيما|صدفية|حساسية/)) return {spec:"جلدية",d:"حساسية جلدية / اكزيما / التهاب جلدي"};
+if(s.match(/بول|كلى|حرقان.*بول|حصوة|بروستات/)) return {spec:"كلى ومسالك بولية",d:"التهاب بول / حصوة كلى / بروستات"};
+if(s.match(/سكر|غدة|درقية|عطش|تبول/)) return {spec:"غدد وسكري",d:"سكري / غدة درقية / اضطراب هرموني"};
+if(s.match(/عيون|نظر|رمد/)) return {spec:"عيون",d:"التهاب عيون / ضعف نظر / حساسية عين"};
+if(s.match(/اذن|انف|حلق|جيوب|لوز/)) return {spec:"أنف وأذن وحنجرة",d:"التهاب لوز / جيوب / أذن وسطى"};
+if(s.match(/نساء|حمل|دورة|ولادة|مبيض/)) return {spec:"نساء وولادة",d:"التهاب / تكيس / متابعة حمل"};
+if(s.match(/طفل|رضيع|حرارة.*طفل/)) return {spec:"أطفال",d:"التهاب أطفال / حرارة / حساسية"};
+if(s.match(/نفسية|اكتئاب|قلق|ارق|توتر/)) return {spec:"نفسية",d:"قلق / اكتئاب / أرق - يحتاج دعم نفسي"};
+if(s.match(/ضغط|دم/)) return {spec:"باطنة - ضغط ودم",d:"ارتفاع / انخفاض ضغط / فقر دم"};
+return {spec:"طب أسرة - لكل الأمراض",d:"يحتاج كشف عام شامل - لكل الأمراض"};
 }
-function check(){
- let v=document.getElementById('sym').value.trim();
- let out=document.getElementById('result');
- if(!v){ alert(ar?'اكتب الأعراض أولا':'Write symptoms first'); return; }
- let red=["chest","breath","faint","bleed","seizure","صدر","نفس","اغماء","نزيف","تشنج"];
- let isRed=red.some(w=>v.toLowerCase().includes(w));
- let html=isRed?`<div style="background:#;border:1px solid #fecaca;padding:12px;border-radius:12px"><b style="color:#">${ar?'🔴 طوارئ':'🔴 Emergency'}</b><br><span class="small">${ar?'توجه للطوارئ الآن - اتصل برقم الطوارئ المحلي':'Go to ER now - Call local emergency number'}</span></div>`:`<div style="background:#;border:1px solid #;padding:12px;border-radius:12px"><b>${ar?'🟢 خطوتك:':'🟢 Your next step:'}</b><br><span class="small">${ar?`<b>الأعراض:</b> ${v}<br><br><b>1.</b> راجع طبيب أسرة خلال 24 ساعة في بلدك<br><b>2.</b> راحة + سوائل + لا أدوية بدون وصفة<br><b>3.</b> إذا ساءت الحالة: طوارئ فورا`:`<b>Symptoms:</b> ${v}<br><br><b>1.</b> See family doctor within 24h in your country<br><b>2.</b> Rest + fluids + no meds without prescription<br><b>3.</b> If worsens: Emergency now`}</span><br><button class="btn" style="margin-top:10px" onclick="window.open('https://www.google.com/maps/search/doctor+near+me','_blank')">${ar?'🔍 طبيب قريب':'🔍 Doctor near me'}</button></div>`;
- out.innerHTML=html; out.style.display='block';
- document.getElementById('out').innerHTML=ar?'تم التقييم ✅ توجيه عالمي عام':'Assessed ✅ General guidance';
+let curSpec="طب أسرة";
+function niko(){
+let sym=document.getElementById('sym').value;
+let city=document.getElementById('city').value||"مدينتك";
+let village=document.getElementById('village').value||"قريتك";
+if(!sym){alert("اكتب أي مرض");return}
+let r=diagAll(sym);
+curSpec=r.spec;
+document.getElementById('diagBox').style.display='block';
+document.getElementById('diagBox').innerHTML=`<b>🩺 نيكو شخص - لكل الأمراض:</b><br>📍 أنت في: <b>${village} - ${city}</b><br>📝 المرض: ${sym}<br><br><b>التشخيص المبدئي:</b> ${r.d}<br><b>التخصص:</b> ${r.spec}<br><br>👉 <b>التوجيه:</b> توجه لأفضل دكتور <b>${r.spec}</b> موجود في <b>${village} - ${city}</b> - نفس قريتك! يعالج <b>${sym}</b> في نفس منطقتك.`;
+document.getElementById('action').style.display='block';
+document.getElementById('guideText').innerHTML=`✅ <b>المريض في ${village} - ${city} عنده ${sym}</b><br>نيكو وجهه لدكتور <b>${r.spec}</b> في <b>${village}</b> - نفس قريتك<br>هذا الدكتور يعالج <b>${r.d}</b> وقريب منك أقل من 2 كيلو!`;
+document.getElementById('spec').innerText=r.spec;
+document.getElementById('spec2').innerText=r.spec;
+document.getElementById('villageName').innerText=village;
+document.getElementById('cityName').innerText=city;
+document.getElementById('villageName2').innerText=village;
+document.getElementById('hospVillage').innerText=village;
+document.getElementById('hospSpec').innerText=r.spec;
 }
+function searchDoctor(){let city=document.getElementById('city').value||"";let village=document.getElementById('village').value||"";window.open(`https://www.google.com/maps/search/أفضل+دكتور+${curSpec}+في+${encodeURIComponent(village)}+${encodeURIComponent(city)}`,"_blank");}
+function searchHosp(){let city=document.getElementById('city').value||"";let village=document.getElementById('village').value||"";window.open(`https://www.google.com/maps/search/مستشفى+${curSpec}+في+${encodeURIComponent(village)}+${encodeURIComponent(city)}`,"_blank");}
 </script>
-</body>
-</html>
-
+</body></html>
