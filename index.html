@@ -1,19 +1,101 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>niKo</title>
+<title>niKo - Global Health Guide</title>
 <style>
-body{font-family:Arial;background:#;margin:0;text-align:center}
-header{background:#;color:#fff;padding:40px 10px}
-.card{background:#fff;margin:20px;padding:20px;border-radius:12px}
-.btn{background:#;color:#fff;padding:10px 20px;border-radius:20px;border:0}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,Tahoma,Arial;background:#}
+header{background:#;color:#fff;padding:26px 20px;text-align:center}
+.hero{background:#fff;margin:16px;border-radius:20px;padding:22px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.06)}
+.badge{display:inline-block;background:#;color:#;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;margin-top:10px}
+.card{background:#fff;margin:16px;border-radius:18px;padding:18px;box-shadow:0 4px 16px rgba(0,0,0,.05)}
+.input{width:100%;padding:14px;border:1.5px solid #;border-radius:12px;font-size:16px}
+.btn{width:100%;background:#;color:#fff;border:0;padding:14px;border-radius:12px;font-size:17px;font-weight:700;margin-top:12px;cursor:pointer}
+.btn-red{background:#}.btn-green{background:#}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dept{border:1.5px solid #;border-radius:14px;padding:12px;text-align:center;background:#fafafa}
+.small{font-size:12px;color:#;line-height:1.7}
+.alert{background:#;border:1px solid #;padding:12px;border-radius:12px;font-size:14px}
+.lang{position:absolute;top:12px;left:12px;background:#fff;color:#111;border:0;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
 </style>
 </head>
 <body>
-<header><h1>niKo</h1><p>مساعد المرضى من مكة</p></header>
-<div class="card"><h2>مرحبا في نيكو</h2><p>موقع يساعد على تتبع الأدوية</p><button class="btn">ابدأ</button></div>
-<div class="card"><small>مشروع تعليمي غير ربحي - خريجة ثانوية</small></div>
+<button class="lang" onclick="toggleLang()" id="langBtn">EN</button>
+<header><h1>niKo</h1><p id="hSub">مساعد المرضى للعالم - نوجهك للطبيب الصح</p></header>
+
+<div class="hero">
+<h2 id="heroTitle">تحسين تعبان؟ 🩺</h2>
+<p id="heroP" style="color:#">اكتب الأعراض، ونوجهك للطبيب المناسب في أي مكان بالعالم</p>
+<div class="badge" id="badge">⚠️ توجيه عالمي للتوعية فقط - ليس تشخيص - استشر طبيب</div>
+</div>
+
+<div class="card">
+<h3 id="t1">ايش تحس فيه؟</h3>
+<input id="sym" class="input" placeholder="مثال: حرارة، كحة، ألم بطن، صداع... / fever, cough...">
+<div id="out" class="alert" style="margin-top:10px">اكتب الأعراض بأي لغة واضغط تقييم</div>
+<button class="btn" onclick="check()" id="btnCheck">تقييم الحالة</button>
+<div id="result" style="display:none;margin-top:14px"></div>
+</div>
+
+<div class="card">
+<h3 id="t2">🚨 اذهب للطوارئ فورا إذا:</h3>
+<div class="small" id="emerg">
+• ألم صدر شديد أو صعوبة تنفس شديدة<br>
+• نزيف لا يتوقف، إغماء، تشنج<br>
+• حرارة عالية مع عدم وعي<br>
+• ألم شديد لا يحتمل أو يتدهور بسرعة<br>
+• أي عرض يهدد الحياة
+</div>
+<button class="btn btn-red" id="btnHosp" onclick="window.open('https://www.google.com/maps/search/hospital+near+me','_blank')">📍 أقرب مستشفى لك في العالم</button>
+</div>
+
+<div class="card">
+<h3 id="t3">جميع التخصصات - للعالم كله</h3>
+<div class="grid">
+<div class="dept"><b>🤒 Internal</b><br><span class="small">باطنة</span></div>
+<div class="dept"><b>❤️ Chest/Heart</b><br><span class="small">قلب وصدر</span></div>
+<div class="dept"><b>🧠 Neuro</b><br><span class="small">أعصاب</span></div>
+<div class="dept"><b>🤰 Women</b><br><span class="small">نساء</span></div>
+<div class="dept"><b>👶 Pediatrics</b><br><span class="small">أطفال</span></div>
+<div class="dept"><b>🦴 Ortho</b><br><span class="small">عظام</span></div>
+<div class="dept"><b>👁️ Eye</b><br><span class="small">عيون</span></div>
+<div class="dept"><b>🧴 Skin</b><br><span class="small">جلدية</span></div>
+</div>
+<p class="small" id="foot1" style="text-align:center;margin-top:12px">niKo يخدم <b>جميع الناس في كل الدول</b> - نغطي كل الأعراض ونوجهك للطبيب</p>
+<button class="btn btn-green" onclick="document.getElementById('sym').scrollIntoView({behavior:'smooth'})" id="btnStart">ابدأ التقييم الآن - Start</button>
+<hr>
+<p class="small">🌍 <b>niKo Global</b> - Health awareness only. Not a medical diagnosis. Always consult a doctor. For emergency, call your local emergency number (e.g. 911, 112, 997).<br>فكرة من طالبة تمريض لخدمة العالم</p>
+</div>
+
+<script>
+let ar=true;
+function toggleLang(){
+ ar=!ar;
+ document.documentElement.dir=ar?'rtl':'ltr';
+ document.documentElement.lang=ar?'ar':'en';
+ document.getElementById('langBtn').innerText=ar?'EN':'العربية';
+ document.getElementById('hSub').innerText=ar?'مساعد المرضى للعالم - نوجهك للطبيب الصح':'Global patient helper - Guides you to the right doctor';
+ document.getElementById('heroTitle').innerText=ar?'تحسين تعبان؟ 🩺':'Feeling unwell? 🩺';
+ document.getElementById('heroP').innerText=ar?'اكتب الأعراض، ونوجهك للطبيب المناسب في أي مكان بالعالم':'Write symptoms, we guide you to the right doctor anywhere';
+ document.getElementById('t1').innerText=ar?'ايش تحس فيه؟':'What do you feel?';
+ document.getElementById('btnCheck').innerText=ar?'تقييم الحالة':'Check condition';
+ document.getElementById('t2').innerText=ar?'🚨 اذهب للطوارئ فورا إذا:':'🚨 Go to ER immediately if:';
+ document.getElementById('t3').innerText=ar?'جميع التخصصات - للعالم كله':'All specialties - For everyone';
+ document.getElementById('foot1').innerHTML=ar?'niKo يخدم <b>جميع الناس في كل الدول</b>':'niKo serves <b>everyone worldwide</b>';
+}
+function check(){
+ let v=document.getElementById('sym').value.trim();
+ let out=document.getElementById('result');
+ if(!v){ alert(ar?'اكتب الأعراض أولا':'Write symptoms first'); return; }
+ let red=["chest","breath","faint","bleed","seizure","صدر","نفس","اغماء","نزيف","تشنج"];
+ let isRed=red.some(w=>v.toLowerCase().includes(w));
+ let html=isRed?`<div style="background:#;border:1px solid #fecaca;padding:12px;border-radius:12px"><b style="color:#">${ar?'🔴 طوارئ':'🔴 Emergency'}</b><br><span class="small">${ar?'توجه للطوارئ الآن - اتصل برقم الطوارئ المحلي':'Go to ER now - Call local emergency number'}</span></div>`:`<div style="background:#;border:1px solid #;padding:12px;border-radius:12px"><b>${ar?'🟢 خطوتك:':'🟢 Your next step:'}</b><br><span class="small">${ar?`<b>الأعراض:</b> ${v}<br><br><b>1.</b> راجع طبيب أسرة خلال 24 ساعة في بلدك<br><b>2.</b> راحة + سوائل + لا أدوية بدون وصفة<br><b>3.</b> إذا ساءت الحالة: طوارئ فورا`:`<b>Symptoms:</b> ${v}<br><br><b>1.</b> See family doctor within 24h in your country<br><b>2.</b> Rest + fluids + no meds without prescription<br><b>3.</b> If worsens: Emergency now`}</span><br><button class="btn" style="margin-top:10px" onclick="window.open('https://www.google.com/maps/search/doctor+near+me','_blank')">${ar?'🔍 طبيب قريب':'🔍 Doctor near me'}</button></div>`;
+ out.innerHTML=html; out.style.display='block';
+ document.getElementById('out').innerHTML=ar?'تم التقييم ✅ توجيه عالمي عام':'Assessed ✅ General guidance';
+}
+</script>
 </body>
 </html>
+
